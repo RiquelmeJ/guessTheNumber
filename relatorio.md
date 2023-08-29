@@ -16,16 +16,27 @@ Olá! Nesse documento, iremos explicar o funcionamento do projeto *Guess The Num
 ## Sobre o jogo
 
 O primeiro projeto da disciplina consiste em um jogo para dois jogadores construído na plataforma **Logisim**. O objetivo do jogo é adivinhar qual é o número secreto do sistema por meio de chutes e das dicas ao fim de cada rodada. Vencerá o o jogo aquele que adivinhar o número secreto primeiro. O sistema funciona da seguinte forma:
- - Para iniciar o jogo, há um botão "Jogar". Cada jogador, em sua vez, deve escolher um número e digitá-lo no sistema binário por meio de um conjunto de botões. Estes, por sua vez, estão ligados em um display de sete segmentos que "converte" a entrada do jogador e a exibe no sistema hexadecimal;
- -   Logo após, é necessário indicar quem é o jogador da vez por meio do botão homônimo, e o multiplexador permitirá que apenas o palpite do jogador indicado seja analisado pelo comparador;
- - Então o comparador, como o nome sugere, comparará a entrada enviada pelo usuário com o número secreto e indicará se o palpite foi errado (no caso, maior ou menor do que o número secreto) ou correto (igual ao número secreto) por meio de 3 saídas.
+ - para iniciar o jogo, há um botão "Jogar". Cada jogador, em sua vez, deve escolher um número e digitá-lo no sistema binário por meio de um conjunto de botões. Estes, por sua vez, estão ligados em um display de sete segmentos que "converte" a entrada do jogador e a exibe no sistema hexadecimal;
+ - logo após, é necessário indicar quem é o jogador da vez por meio do botão homônimo, e o multiplexador permitirá que apenas o palpite do jogador indicado seja analisado pelo comparador;
+ - então o comparador, como o nome sugere, comparará a entrada enviada pelo usuário com o número secreto e indicará se o palpite foi errado (no caso, maior ou menor do que o número secreto) ou correto (igual ao número secreto) por meio de 3 saídas.
 
 ## Componentes
 ### Decodificador
-O display de 7 segmentos foi feito a partir da produção da tabela verdade 
-![enter image description here](https://uploaddeimagens.com.br/images/004/590/465/full/circuitosDisplay.png?1693231398 "circuitos dos componentes do display")
+Um display de sete segmentos é um dispositivo eletrônico que é frequentemente utilizado para exibir números decimais (em nosso caso, hexadecimais) a partir de números binários. Ele consiste em sete segmentos individuais que podem ser ativados ou desativados independentemente, permitindo a formação de diferentes combinações para representar dígitos ou alguns caracteres especiais, como letras.  
+Para esse projeto, os circuitos dos segmentos foram idealizados de forma que representam dígitos de 0 a 9 eletras de A até F, contemplando todos os algarismos necessários para o sistema hexadecimal, ao ligar ou desligar os segmentos apropriados. Por exemplo, para exibir o número "1", devem ser ativados os LEDs "b" e "c".  
+Os decodificadores foram projetados a partir da tabela verdade dos caracteres hexadecimais, onde cada expressão lógica gerada pela tabela verdade foi simplificada utilizando a técnica do mapa de Karnaugh e implementada por meio do produto de somas.
+
+![circuitos dos componentes do display](https://uploaddeimagens.com.br/images/004/590/465/full/circuitosDisplay.png?1693231398 "circuitos dos componentes do display")
 ![decodificador](https://uploaddeimagens.com.br/images/004/590/497/full/decodificador.png?1693232459 "decodificador")
 ### Multiplexador
+O multiplexador é responsável por selecionar um de vários sinais de entrada e encaminhá-lo para a saída, com base em um conjunto de sinais de controle. Em nosso sistema, o seletor se encaminha de controlar qual a saída desejada. Como já é notável, os três principais componentes são as entradas do usuário, o seletor e a sua saída.   
+Para a produção desse componente, tomamos como base a explicação dada em aula sobre a tabela verdade e a implementação do multiplexador de 1 saída:
+* quando o seletor está em 0, a primeira entrada é repassada. No caso, o 0 do seletor é barrado e chega como um na porta AND, e se o jogador tiver escolhido 0, a porta continuará inativa e repassará 0. Caso contrário, a porta é ativada e repassa o 1 na saída.  
+* quando o seletor está em 1, ele é negado na primeira AND e chega como 1 na segunda, permitindo que a jogada do outro jogador defina a saída dessa.
+
+A partir desse, montamos o multiplexador com 4 saídas. Os interruptores mais à esquerda representam as entradas dos jogadores 0 e 1 (de cima para baixo), e o interruptor mais acima seleciona qual dos palpites deve ser repassado para o comparador.
+
+![multiplexador](https://uploaddeimagens.com.br/images/004/591/406/full/Group_1_%282%29.png?1693276175 "multiplexador")
 ### Comparador
 Esse componente é um dos mais importantes para o funcionamento do jogo. Ele é responsável por comparar a entrada do jogador da vez (que chamaremos de A) com o "número secreto" (que chamaremos de B) e retornar a assertividade do chute. Essa parte do projeto foi baseada, em sua grande parte, na [vídeoaula](https://www.youtube.com/watch?v=tVgocuuisjA) do professor Pedro Souza.
 ![decodificador](https://uploaddeimagens.com.br/images/004/591/374/full/imagem_2023-08-28_221314424.png?1693271598 "decodificador")
